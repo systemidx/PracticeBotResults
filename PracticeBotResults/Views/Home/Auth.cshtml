@@ -1,0 +1,24 @@
+﻿@model Boolean
+@{
+    ViewData["Title"] = "Auth";
+}
+
+<h2>Auth</h2>
+
+@section Scripts {
+
+    <script type="text/javascript">
+
+        microsoftTeams.initialize();
+
+        if (@Model){
+            microsoftTeams.authentication.notifySuccess();
+        }
+        else
+        {
+            microsoftTeams.authentication.notifyFailure();
+        }
+
+    </script>
+
+}

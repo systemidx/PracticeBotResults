@@ -5,33 +5,72 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using PracticeBotResults.Models;
+using Microsoft.Identity.Client;
+using PracticeBotResults.Utility;
 
 namespace PracticeBotResults.Controllers
 {
     public class HomeController : Controller
     {
-        public IActionResult Index()
+        private const string AUTHORITY = "https://login.microsoftonline.com/common";
+        private string clientId;
+        private string redirectUrl;
+        private string clientSecret;
+
+        private string[] scope = new[] { "openid", "offline_access" };
+
+        public async  Task<IActionResult> Index()
         {
-            return View();
+            TokenCache tokenCache = new InMemoryTokenCacheMSAL().GetMsalCacheInstance();
+            ConfidentialClientApplication client = new ConfidentialClientApplication(clientId, redirectUrl, new ClientCredential(clientSecret), tokenCache, null);
+
+            try
+            {
+
+                var userUniqueId = (this.Request.Cookies.ContainsKey("UniqueId")) ? this.Request.Cookies["UniqueId"] : "";
+                var token = await client.AcquireTokenSilentAsync(scope, client.GetUser(userUniqueId));
+
+                ViewBag["Authenticated"] = true;
+                return View(); //todo: query db and get scores
+            }
+            catch
+            {
+                ViewBag["Authenticated"] = false;
+                return View();
+            }
+            
         }
 
-        public IActionResult About()
+        public async Task<IActionResult> Auth([FromQuery]string code)
         {
-            ViewData["Message"] = "Your application description page.";
+            TokenCache tokenCache = new InMemoryTokenCacheMSAL().GetMsalCacheInstance();
+            ConfidentialClientApplication client = new ConfidentialClientApplication(clientId, redirectUrl, new ClientCredential(clientSecret), tokenCache, null);
+            
+            if (code != null)
+            {
+                var token = await client.AcquireTokenByAuthorizationCodeAsync(code, scope);
+                this.Response.Cookies.Append("UniqueId", token.UniqueId);
+                
+                return View(true);
+            }
+            else
+            {
+                try
+                {
+                    var userUniqueId = (this.Request.Cookies.ContainsKey("UniqueId")) ? this.Request.Cookies["UniqueId"] : "";
+                    var token = await client.AcquireTokenSilentAsync(scope, client.GetUser(userUniqueId));
 
-            return View();
-        }
+                    return View(true);
+                }
+                catch (Exception e) // lookup exception
+                {
+                    var uri = await client.GetAuthorizationRequestUrlAsync(scope, null, null);
 
-        public IActionResult Contact()
-        {
-            ViewData["Message"] = "Your contact page.";
+                    return Redirect(uri.ToString());
+                }
+            }
 
-            return View();
-        }
-
-        public IActionResult Error()
-        {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+            
         }
     }
 }
