@@ -7,22 +7,26 @@ using Microsoft.AspNetCore.Mvc;
 using PracticeBotResults.Models;
 using Microsoft.Identity.Client;
 using PracticeBotResults.Utility;
+using Microsoft.Extensions.Options;
 
 namespace PracticeBotResults.Controllers
 {
     public class HomeController : Controller
     {
         private const string AUTHORITY = "https://login.microsoftonline.com/common";
-        private string clientId;
-        private string redirectUrl;
-        private string clientSecret;
 
         private string[] scope = new[] { "openid", "offline_access" };
+        private readonly ConfigOptions _config;
+
+        public HomeController(IOptionsSnapshot<ConfigOptions> optionsAccessor)
+        {
+            _config = optionsAccessor.Value;
+        }
 
         public async  Task<IActionResult> Index()
         {
             TokenCache tokenCache = new InMemoryTokenCacheMSAL().GetMsalCacheInstance();
-            ConfidentialClientApplication client = new ConfidentialClientApplication(clientId, redirectUrl, new ClientCredential(clientSecret), tokenCache, null);
+            ConfidentialClientApplication client = new ConfidentialClientApplication(_config.ClientId, _config.RedirectUrl, new ClientCredential(_config.ClientSecret), tokenCache, null);
 
             try
             {
@@ -44,7 +48,7 @@ namespace PracticeBotResults.Controllers
         public async Task<IActionResult> Auth([FromQuery]string code)
         {
             TokenCache tokenCache = new InMemoryTokenCacheMSAL().GetMsalCacheInstance();
-            ConfidentialClientApplication client = new ConfidentialClientApplication(clientId, redirectUrl, new ClientCredential(clientSecret), tokenCache, null);
+            ConfidentialClientApplication client = new ConfidentialClientApplication(_config.ClientId, _config.RedirectUrl, new ClientCredential(_config.ClientSecret), tokenCache, null);
             
             if (code != null)
             {
