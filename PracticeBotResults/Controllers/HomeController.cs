@@ -8,6 +8,7 @@ using PracticeBotResults.Models;
 using Microsoft.Identity.Client;
 using PracticeBotResults.Utility;
 using Microsoft.Extensions.Options;
+using PracticeBotResults.ViewModels;
 
 namespace PracticeBotResults.Controllers
 {
@@ -17,33 +18,64 @@ namespace PracticeBotResults.Controllers
 
         private string[] scope = new[] { "openid", "offline_access" };
         private readonly ConfigOptions _config;
+        private readonly PracticeBotDbContext _db;
 
-        public HomeController(IOptionsSnapshot<ConfigOptions> optionsAccessor)
+        private const string ObjectIdentifierClaimType = "http://schemas.microsoft.com/identity/claims/objectidentifier";
+
+        public HomeController(IOptionsSnapshot<ConfigOptions> optionsAccessor, PracticeBotDbContext db)
         {
             _config = optionsAccessor.Value;
+            _db = db;
         }
 
         public async  Task<IActionResult> Index()
         {
-            TokenCache tokenCache = new InMemoryTokenCacheMSAL().GetMsalCacheInstance();
-            ConfidentialClientApplication client = new ConfidentialClientApplication(_config.ClientId, _config.RedirectUrl, new ClientCredential(_config.ClientSecret), tokenCache, null);
 
-            try
-            {
+            var studentUserId = User.Claims.First(c => c.Type == ObjectIdentifierClaimType).Value;
+            var resultsVM = GetResults(studentUserId);
+            return View(resultsVM);
+            //TokenCache tokenCache = new InMemoryTokenCacheMSAL().GetMsalCacheInstance();
+            //ConfidentialClientApplication client = new ConfidentialClientApplication(_config.ClientId, _config.RedirectUrl, new ClientCredential(_config.ClientSecret), tokenCache, null);
 
-                var userUniqueId = (this.Request.Cookies.ContainsKey("UniqueId")) ? this.Request.Cookies["UniqueId"] : "";
-                var token = await client.AcquireTokenSilentAsync(scope, client.GetUser(userUniqueId));
+            //try
+            //{
 
-                ViewBag["Authenticated"] = true;
-                return View(); //todo: query db and get scores
-            }
-            catch
-            {
-                ViewBag["Authenticated"] = false;
-                return View();
-            }
-            
+            //    var userUniqueId = (this.Request.Cookies.ContainsKey("UniqueId")) ? this.Request.Cookies["UniqueId"] : "";
+            //    var token = await client.AcquireTokenSilentAsync(scope, client.GetUser(userUniqueId));
+
+            //    ViewBag["Authenticated"] = true;
+
+
+            //}
+            //catch
+            //{
+            //    ViewBag["Authenticated"] = false;
+            //    return View();
+            //}
+
         }
+
+        private IList<ResultsViewModel> GetResults(string studentUserId)
+        {
+            List<ResultsViewModel> viewModels = _db.Results.Where(r => r.UserId == studentUserId).GroupBy(r => r.CourseName)
+                .Select(group => new ResultsViewModel
+                {
+                    CourseName = group.Key,
+                    Assessments = group.GroupBy(g => g.AssessmentName).Select(a =>
+
+                        new AssessmentViewModel
+                        {
+                            AssessmentTitle = a.Key,
+                            Correct = a.Where(q => q.IsCorrect).Count(),
+                            QuestionsTotal = a.Count()
+                        }
+                    ).ToList()
+                }).ToList();
+
+            return viewModels;
+
+        }
+        
 
         public async Task<IActionResult> Auth([FromQuery]string code)
         {

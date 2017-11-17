@@ -1,17 +1,41 @@
-﻿@{
+﻿@using PracticeBotResults.ViewModels
+
+@model List<ResultsViewModel>
+
+@{
     ViewData["Title"] = "Home Page";
 }
 
-@if (ViewBag["Authenticated"])
-{
+@*@if (ViewBag["Authenticated"])
+{*@
 
-   <h1>YAY</h1>
-}
+   @foreach (var result in Model)
+   {
+
+        <h2>Course: @result.CourseName</h2>
+       <table class="table table-striped">
+           <thead>
+               <tr>
+                   <td>Assessment Title</td>
+                   <td>Score (%)</td>
+               </tr>
+           </thead>
+           @foreach (var assessment in result.Assessments)
+           {
+            <tr>
+                <td>@assessment.AssessmentTitle</td>
+                <td>@assessment.Score %</td>
+            </tr>
+           }
+       </table>
+
+   }
+@*}
 else
 {
     <button id="button">Login</button>
 
-}
+}*@
 
 @section Scripts{
     <script type="text/javascript">

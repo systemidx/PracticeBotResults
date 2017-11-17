@@ -32,7 +32,7 @@ namespace PracticeBotResults
         public async void ConfigureServices(IServiceCollection services)
         {
             var configOptions = Configuration.GetSection("Configuration").Get<ConfigOptions>();
-
+           
             services.AddDbContext<PracticeBotDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             services.AddMvc();
 
