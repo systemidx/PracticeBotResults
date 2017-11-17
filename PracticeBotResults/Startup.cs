@@ -34,9 +34,17 @@ namespace PracticeBotResults
 
             services.Configure<ConfigOptions>(options => Configuration.GetSection("Configuration").Bind((options)));
             services.AddDbContext<PracticeBotDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
-            services.AddMvc();
+            
+            services.AddDistributedMemoryCache();
 
+            services.AddSession(options =>
+            {
+                // Set a short timeout for easy testing.
+                options.IdleTimeout = TimeSpan.FromSeconds(10);
+                options.Cookie.HttpOnly = true;
+            });
 
+            services.AddMvc().AddSessionStateTempDataProvider();// Adds a default in-memory implementation of IDistributedCache.
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -52,8 +60,9 @@ namespace PracticeBotResults
                 app.UseExceptionHandler("/Home/Error");
             }
 
+
+            app.UseSession();
             app.UseStaticFiles();
-            
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
