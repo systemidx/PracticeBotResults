@@ -28,30 +28,29 @@ namespace PracticeBotResults.Controllers
             _db = db;
         }
 
-        public async  Task<IActionResult> Index()
+        public async  Task<IActionResult> Index(string upn)
         {
 
-            var studentUserId = User.Claims.First(c => c.Type == ObjectIdentifierClaimType).Value;
-            var resultsVM = GetResults(studentUserId);
-            return View(resultsVM);
-            //TokenCache tokenCache = new InMemoryTokenCacheMSAL().GetMsalCacheInstance();
-            //ConfidentialClientApplication client = new ConfidentialClientApplication(_config.ClientId, _config.RedirectUrl, new ClientCredential(_config.ClientSecret), tokenCache, null);
+            
+            TokenCache tokenCache = new InMemoryTokenCacheMSAL().GetMsalCacheInstance();
+            ConfidentialClientApplication client = new ConfidentialClientApplication(_config.ClientId, _config.RedirectUrl, new ClientCredential(_config.ClientSecret), tokenCache, null);
 
-            //try
-            //{
+            try
+            {
 
-            //    var userUniqueId = (this.Request.Cookies.ContainsKey("UniqueId")) ? this.Request.Cookies["UniqueId"] : "";
-            //    var token = await client.AcquireTokenSilentAsync(scope, client.GetUser(userUniqueId));
+                var userUniqueId = (this.Request.Cookies.ContainsKey("UniqueId")) ? this.Request.Cookies["UniqueId"] : "";
+                var token = await client.AcquireTokenSilentAsync(scope, client.GetUser(userUniqueId));
 
-            //    ViewBag["Authenticated"] = true;
+                ViewBag["Authenticated"] = true;
 
-
-            //}
-            //catch
-            //{
-            //    ViewBag["Authenticated"] = false;
-            //    return View();
-            //}
+                var resultsVM = GetResults(upn);
+                return View(resultsVM);
+            }
+            catch
+            {
+                ViewBag["Authenticated"] = false;
+                return View();
+            }
 
         }
 
