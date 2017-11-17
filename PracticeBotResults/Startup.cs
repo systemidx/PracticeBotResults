@@ -31,8 +31,8 @@ namespace PracticeBotResults
         // This method gets called by the runtime. Use this method to add services to the container.
         public async void ConfigureServices(IServiceCollection services)
         {
-            var configOptions = Configuration.GetSection("Configuration").Get<ConfigOptions>();
-           
+
+            services.Configure<ConfigOptions>(options => Configuration.GetSection("Configuration").Bind((options)));
             services.AddDbContext<PracticeBotDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             services.AddMvc();
 

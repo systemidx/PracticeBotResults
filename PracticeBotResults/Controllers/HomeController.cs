@@ -16,7 +16,7 @@ namespace PracticeBotResults.Controllers
     {
         private const string AUTHORITY = "https://login.microsoftonline.com/common";
 
-        private string[] scope = new[] { "openid", "offline_access" };
+        private string[] scope = new string[] { "User.Read" };
         private readonly ConfigOptions _config;
         private readonly PracticeBotDbContext _db;
 
