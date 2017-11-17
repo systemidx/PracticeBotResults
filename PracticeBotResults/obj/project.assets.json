@@ -7678,7 +7678,7 @@
       ]
     },
     "Microsoft.VisualStudio.Web.CodeGeneration.Contracts/2.0.0": {
-      "sha512": "b09URg+t+6v2LAut5LSxd2yFEW7KRbM2SLLMpffQsqYXCYv/wuFs+xmyonKSl4efrPNT5jHi1nPcZzMcT/aFag==",
+      "sha512": "UIlELB0laoUrkGRcMLwUpek6sUXtlxToDsAg0xU4gQvDGYIfe7bBJjka54XBHq/TZEsZ0NipOaFiNQOfRTd2xA==",
       "type": "package",
       "path": "microsoft.visualstudio.web.codegeneration.contracts/2.0.0",
       "files": [
@@ -8032,7 +8032,7 @@
       ]
     },
     "NuGet.Frameworks/4.0.0": {
-      "sha512": "dS8L7AGMfjUdAbKJsJUddq00pOU2vBVntO91nQjBqnfAI1/+eFcsydGSeJqE0cBEnS+CHfp8rR433l49/hva+Q==",
+      "sha512": "WCkN68c8q+USG+Ot1MmBDH+9DUo5dk7UB0QDMiwCYhrH7ZoFLKFGGNzJ8C3LTR1DvB1LW9BOxKeznnZznKiCTA==",
       "type": "package",
       "path": "nuget.frameworks/4.0.0",
       "files": [
@@ -13155,7 +13155,7 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\vyta\\.nuget\\packages\\": {},
+    "C:\\Users\\bweber\\.nuget\\packages\\": {},
     "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
   },
   "project": {
@@ -13164,17 +13164,17 @@
       "hideWarningsAndErrors": true
     },
     "restore": {
-      "projectUniqueName": "C:\\Users\\vyta\\source\\repos\\practicebotresults\\PracticeBotResults\\PracticeBotResults.csproj",
+      "projectUniqueName": "C:\\Github\\PracticeBotResults\\PracticeBotResults\\PracticeBotResults.csproj",
       "projectName": "PracticeBotResults",
-      "projectPath": "C:\\Users\\vyta\\source\\repos\\practicebotresults\\PracticeBotResults\\PracticeBotResults.csproj",
-      "packagesPath": "C:\\Users\\vyta\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\vyta\\source\\repos\\practicebotresults\\PracticeBotResults\\obj\\",
+      "projectPath": "C:\\Github\\PracticeBotResults\\PracticeBotResults\\PracticeBotResults.csproj",
+      "packagesPath": "C:\\Users\\bweber\\.nuget\\packages\\",
+      "outputPath": "C:\\Github\\PracticeBotResults\\PracticeBotResults\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
       ],
       "configFilePaths": [
-        "C:\\Users\\vyta\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\bweber\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -13182,7 +13182,9 @@
       ],
       "sources": {
         "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-        "https://api.nuget.org/v3/index.json": {}
+        "https://api.nuget.org/v3/index.json": {},
+        "https://connectionseducation.pkgs.visualstudio.com/_packaging/ConnectionsEducation/nuget/v3/index.json": {},
+        "https://connectionseducation.pkgs.visualstudio.com/_packaging/EdTechInnovation/nuget/v3/index.json": {}
       },
       "frameworks": {
         "netcoreapp2.0": {

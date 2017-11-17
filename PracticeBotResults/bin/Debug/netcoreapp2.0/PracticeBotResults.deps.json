@@ -5406,7 +5406,7 @@
     "Microsoft.VisualStudio.Web.CodeGeneration.Contracts/2.0.0": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-b09URg+t+6v2LAut5LSxd2yFEW7KRbM2SLLMpffQsqYXCYv/wuFs+xmyonKSl4efrPNT5jHi1nPcZzMcT/aFag==",
+      "sha512": "sha512-UIlELB0laoUrkGRcMLwUpek6sUXtlxToDsAg0xU4gQvDGYIfe7bBJjka54XBHq/TZEsZ0NipOaFiNQOfRTd2xA==",
       "path": "microsoft.visualstudio.web.codegeneration.contracts/2.0.0",
       "hashPath": "microsoft.visualstudio.web.codegeneration.contracts.2.0.0.nupkg.sha512"
     },
@@ -5483,7 +5483,7 @@
     "NuGet.Frameworks/4.0.0": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-dS8L7AGMfjUdAbKJsJUddq00pOU2vBVntO91nQjBqnfAI1/+eFcsydGSeJqE0cBEnS+CHfp8rR433l49/hva+Q==",
+      "sha512": "sha512-WCkN68c8q+USG+Ot1MmBDH+9DUo5dk7UB0QDMiwCYhrH7ZoFLKFGGNzJ8C3LTR1DvB1LW9BOxKeznnZznKiCTA==",
       "path": "nuget.frameworks/4.0.0",
       "hashPath": "nuget.frameworks.4.0.0.nupkg.sha512"
     },

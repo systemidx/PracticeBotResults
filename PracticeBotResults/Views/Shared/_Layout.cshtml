@@ -6,10 +6,12 @@
     <title>@ViewData["Title"] - PracticeBotResults</title>
 </head>
 <body>
-    <div class="container body-content">
-        @RenderBody()
-    </div>
-    <script src="https://statics.teams.microsoft.com/sdk/v1.0/js/MicrosoftTeams.min.js"></script>
+<div class="container body-content">
+    @RenderBody()
+</div>
+    
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://statics.teams.microsoft.com/sdk/v1.0/js/MicrosoftTeams.min.js"></script>
     @RenderSection("Scripts", required: false)
 </body>
 </html>

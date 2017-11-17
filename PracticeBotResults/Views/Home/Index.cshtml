@@ -2,7 +2,7 @@
     ViewData["Title"] = "Home Page";
 }
 
-@if (ViewBag["Authenticated"])
+@if ((bool)ViewData["Authenticated"])
 {
 
    <h1>YAY</h1>
@@ -17,14 +17,15 @@ else
     <script type="text/javascript">
         microsoftTeams.initialize();
 
-        $('#button').click(function {
-            microsftTeams.authentication.authenticate({
-                url: "/Auth",
+        $('#button').click(function() {
+            microsoftTeams.authentication.authenticate({
+                url: "/Home/Auth",
                 width: 400,
                 height: 400,
-                successCallback: function { window.location.reload() },
-                failureCallback: function { console.log("Error.") } );
-            
+                successCallback: function() { window.location.reload() },
+                failureCallback: function() { console.log("Error.") }
+            });
+
 
         });
     </script>

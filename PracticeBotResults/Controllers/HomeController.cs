@@ -15,7 +15,7 @@ namespace PracticeBotResults.Controllers
     {
         private const string AUTHORITY = "https://login.microsoftonline.com/common";
 
-        private string[] scope = new[] { "openid", "offline_access" };
+        private string[] scope = new string[] { "User.Read" };
         private readonly ConfigOptions _config;
 
         public HomeController(IOptionsSnapshot<ConfigOptions> optionsAccessor)
@@ -34,12 +34,13 @@ namespace PracticeBotResults.Controllers
                 var userUniqueId = (this.Request.Cookies.ContainsKey("UniqueId")) ? this.Request.Cookies["UniqueId"] : "";
                 var token = await client.AcquireTokenSilentAsync(scope, client.GetUser(userUniqueId));
 
-                ViewBag["Authenticated"] = true;
+                ViewData["Authenticated"] = true;
                 return View(); //todo: query db and get scores
             }
-            catch
+            catch (Exception ex)
             {
-                ViewBag["Authenticated"] = false;
+
+                ViewData["Authenticated"] = false;
                 return View();
             }
             
